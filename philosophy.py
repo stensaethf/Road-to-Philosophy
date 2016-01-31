@@ -5,6 +5,10 @@ Frederik Roenn Stensaeth
 Python program to play the game 'all Wikipedia articles lead to philosophy'.
 '''
 
+# RULES TO IMPLEMENT:
+# 1. Clicking on the first non-parenthesized, non-italicized link
+# 2. Ignoring red links
+
 import sys
 import requests
 from bs4 import BeautifulSoup as BS
@@ -25,8 +29,10 @@ def philosophy(page):
 				link = a['href']
 				if link[:6] == '/wiki/':
 					if first == True:
-						page = link[6:]
-						first = False
+						new_page = link[6:]
+						if new_page != page:
+							page = new_page
+							first = False
 		if first == True:
 			print 'There appears to not be any links on the\'' + page + '\' site...'
 			sys.exit()
