@@ -14,8 +14,6 @@ Python program to play the game 'all Wikipedia articles lead to philosophy'.
 # 	(ousia) --> ousia is link.
 # 	(and also Locke) --> Locke is link.
 # 	(such as Baruch Spinoza, Gottfried Leibniz, and Christian Wolff) --> names are links.
-# italics:
-# 	i-tag will be parent of the a-tag.
 # red links:
 # 	from a quick investigation red links appear to start with /w/index.php?title=...
 # 		--> this means that we will already be ignoring them, which is good.
@@ -43,8 +41,12 @@ def philosophy(page):
 					if first == True:
 						new_page = link[6:]
 						if new_page != page:
-							page = new_page
-							first = False
+							# a.parent --> parent of a-tag we're at.
+							# a.name --> a, div, p, etc.
+							if a.parent.name != 'i':
+								first = False
+								page = new_page
+
 		if first == True:
 			print 'There appears to not be any links on the\'' + page + '\' site...'
 			sys.exit()
