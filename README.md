@@ -12,7 +12,3 @@ The rules of the game rather are simple:
 Read more on: https://en.wikipedia.org/wiki/Wikipedia:Getting_to_Philosophy
 
 [In progress]
-
-Remaining to implement:
-
-Parenthesis

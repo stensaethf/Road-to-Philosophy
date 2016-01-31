@@ -5,20 +5,9 @@ Frederik Roenn Stensaeth
 Python program to play the game 'all Wikipedia articles lead to philosophy'.
 '''
 
-# RULES TO IMPLEMENT:
-# 1. Clicking on the first non-parenthesized
-
-# NOTES:
-# parenthesis:
-# 	(ousia) --> ousia is link.
-# 	(and also Locke) --> Locke is link.
-# 	(such as Baruch Spinoza, Gottfried Leibniz, and Christian Wolff) --> names are links.
-
-
 import sys
 import requests
 from bs4 import BeautifulSoup as BS
-import re
 
 def getFirstLink(soup, article):
 	"""
@@ -44,17 +33,37 @@ def getFirstLink(soup, article):
 			# 3. No italics.
 			# 4. No red link. We appear to be doing this by making sure the link
 			# 	 is /wiki/.
+			# 5. No parenthesis.
 			if link[:6] == '/wiki/':
 				new_article = link[6:]
 				if new_article != article:
-					if a.parent.name != 'i':
-						# things we need to do:
-						# go up to nearest p-tag.
-						# slice the p-tag so that we only get html until the href.
-						# count number of '(' and ')'.
-						# if number of ')' < '(' then the href is inside a parenthesis
-						# 	and we should not count it as our link.
-						return new_article
+					parent = a.parent
+					if parent.name != 'i':
+						while parent.name != 'p':
+							parent = parent.parent
+						contents = parent.contents
+						open_paren = 0
+						close_paren = 0
+						for el in contents:
+							if el.name == None:
+								open_paren += el.count('(')
+								close_paren += el.count(')')
+							else:
+								if el.name == 'a':
+									if el['href'] == link:
+										break
+									else:
+										open_paren += el.text.count('(')
+										close_paren += el.text.count(')')
+								else:
+									open_paren += el.text.count('(')
+									close_paren += el.text.count(')')
+
+						# less or equal number of open and close parenthesis,
+						# so the link isn't inside parenthesis. we want this
+						# link.
+						if open_paren <= close_paren:
+							return new_article
 	print 'There appears to not be any links on the\'' + article + '\' site...'
 	sys.exit()
 
