@@ -23,46 +23,63 @@ import sys
 import requests
 from bs4 import BeautifulSoup as BS
 
-def philosophy(page):
+def getFirstLink(soup, article):
+	"""
+	getFirstLink() finds the first link (a-tag) for a given Wikipedia article.
+	The url title of the link is returned. Prints an error message and quits
+	if no link was found in the article.
+
+	I moved these loops to a separate function to make the algorithm slightly
+	faster by returning when we find a link. Including break statements seemed
+	like an ugly solution to the problem.
+
+	@params: soup and current article title.
+	@return: url title of first link in the article.
+	"""
+	# the text body is within p-tags, so get those first.
+	for p in soup.find_all('p'):
+		# further we want the links, right? so we get those as well.
+		for a in p.find_all('a'):
+			link = a['href']
+			# now we make sure that we follow the various rules of the game.
+			if link[:6] == '/wiki/':
+				new_article = link[6:]
+				if new_article != article:
+					if a.parent.name != 'i':
+						return new_article
+	print 'There appears to not be any links on the\'' + article + '\' site...'
+	sys.exit()
+
+def philosophy(article_start, article_end):
+	"""
+	philosophy() finds the path of Wikipedia articles that you need to visit in order
+	to get from the start article to the end article.
+
+	@params: page title to start at and page title to end at.
+	@return: n/a.
+	"""
 	seen = {}
-	seen[page] = True
-	print page
+	seen[article_start] = True
+	print article_start
 
-	while page != 'Philosophy':
+	while article_start != article_end:
 		# load that Wikipedia page.
-		r = requests.get('http://en.wikipedia.org/w/index.php?title=' + page)
+		r = requests.get('http://en.wikipedia.org/w/index.php?title=' + article_start)
 		soup = BS(r.content)
-		# the text body is within p-tags, so get those first.
-		first = True
-		for p in soup.find_all('p'):
-			# further we want the links, right? so we get those as well.
-			for a in p.find_all('a'):
-				link = a['href']
-				# now we make sure that we follow the various rules of the game.
-				if link[:6] == '/wiki/':
-					if first == True:
-						new_page = link[6:]
-						if new_page != page:
-							if a.parent.name != 'i':
-								first = False
-								page = new_page
-
-		if first == True:
-			print 'There appears to not be any links on the\'' + page + '\' site...'
-			sys.exit()
-		print page
-		if page in seen:
-			print 'Cycle detected! We have seen \'' + page + '\' before...'
+		article_start = getFirstLink(soup, article_start)
+		print article_start
+		if article_start in seen:
+			print 'Cycle detected! We have seen \'' + article_start + '\' before...'
 			sys.exit()
 		else:
-			seen[page] = True
+			seen[article_start] = True
 
 def main():
-	if len(sys.argv) != 2:
+	if len(sys.argv) != 3:
 		print 'Sorry, looks like you provided an incorrect number of arguments...'
-		print 'Usage: $ python philosophy.py <starting title>'
+		print 'Usage: $ python philosophy.py <starting title> <ending title>'
 		sys.exit()
-	philosophy(sys.argv[1])
+	philosophy(sys.argv[1], sys.argv[2])
 
 
 if __name__ == '__main__':
