@@ -1,7 +1,7 @@
 # Road-to-Philosophy
-Rumor has it that all articles on Wikipedia lead to philosophy. True? (well, no...but apparantly 94.52% of all Wikipedia articles do, which is fascinating)
+Rumor has it that all articles on Wikipedia lead to philosophy. True? Well, no...but apparantly 94.52% of all Wikipedia articles do, which is fascinating)
 
-The rules are simple.
+The rules are simple:
 
 1. Click on the first non-parenthesized, non-italicized link.
 
