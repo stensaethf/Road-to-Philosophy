@@ -6,7 +6,7 @@ Python program to play the game 'all Wikipedia articles lead to philosophy'.
 '''
 
 # RULES TO IMPLEMENT:
-# 1. Clicking on the first non-parenthesized, non-italicized link
+# 1. Clicking on the first non-parenthesized
 # 2. Ignoring red links
 
 # NOTES:
@@ -41,8 +41,6 @@ def philosophy(page):
 					if first == True:
 						new_page = link[6:]
 						if new_page != page:
-							# a.parent --> parent of a-tag we're at.
-							# a.name --> a, div, p, etc.
 							if a.parent.name != 'i':
 								first = False
 								page = new_page
