@@ -11,4 +11,6 @@ The rules of the game rather are simple:
 
 Read more on: https://en.wikipedia.org/wiki/Wikipedia:Getting_to_Philosophy
 
-[In progress]
+Note:
+
+This implementation requires that any link must also be within a paragraph HTML tag.
