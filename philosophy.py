@@ -18,6 +18,7 @@ Python program to play the game 'all Wikipedia articles lead to philosophy'.
 import sys
 import requests
 from bs4 import BeautifulSoup as BS
+import re
 
 def getFirstLink(soup, article):
 	"""
@@ -47,6 +48,12 @@ def getFirstLink(soup, article):
 				new_article = link[6:]
 				if new_article != article:
 					if a.parent.name != 'i':
+						# things we need to do:
+						# go up to nearest p-tag.
+						# slice the p-tag so that we only get html until the href.
+						# count number of '(' and ')'.
+						# if number of ')' < '(' then the href is inside a parenthesis
+						# 	and we should not count it as our link.
 						return new_article
 	print 'There appears to not be any links on the\'' + article + '\' site...'
 	sys.exit()
