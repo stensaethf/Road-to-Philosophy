@@ -15,4 +15,4 @@ Read more on: https://en.wikipedia.org/wiki/Wikipedia:Getting_to_Philosophy
 
 Remaining to implement:
 
-Parenthesis, red-links
+Parenthesis
