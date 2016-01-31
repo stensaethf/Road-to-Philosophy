@@ -34,7 +34,7 @@ def getFirstLink(soup, article):
 			# 4. No red link. We appear to be doing this by making sure the link
 			# 	 is /wiki/.
 			# 5. No parenthesis.
-			if link[:6] == '/wiki/' and a['title'][:5] != 'Help:':
+			if link[:6] == '/wiki/' and ':' not in a['title']:
 				new_article = link[6:]
 				if new_article != article:
 					parent = a.parent
