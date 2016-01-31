@@ -9,6 +9,18 @@ Python program to play the game 'all Wikipedia articles lead to philosophy'.
 # 1. Clicking on the first non-parenthesized, non-italicized link
 # 2. Ignoring red links
 
+# NOTES:
+# parenthesis:
+# 	(ousia) --> ousia is link.
+# 	(and also Locke) --> Locke is link.
+# 	(such as Baruch Spinoza, Gottfried Leibniz, and Christian Wolff) --> names are links.
+# italics:
+# 	i-tag will be parent of the a-tag.
+# red links:
+# 	from a quick investigation red links appear to start with /w/index.php?title=...
+# 		--> this means that we will already be ignoring them, which is good.
+
+
 import sys
 import requests
 from bs4 import BeautifulSoup as BS
