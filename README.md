@@ -11,7 +11,6 @@ The rules are simple:
 
 Read more on: https://en.wikipedia.org/wiki/Wikipedia:Getting_to_Philosophy
 
-
 [In progress]
 
 Remaining to implement:

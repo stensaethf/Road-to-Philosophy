@@ -32,11 +32,13 @@ def philosophy(page):
 		# load that Wikipedia page.
 		r = requests.get('http://en.wikipedia.org/w/index.php?title=' + page)
 		soup = BS(r.content)
-		# grab first link on that page and set page equal to that.
+		# the text body is within p-tags, so get those first.
 		first = True
 		for p in soup.find_all('p'):
+			# further we want the links, right? so we get those as well.
 			for a in p.find_all('a'):
 				link = a['href']
+				# now we make sure that we follow the various rules of the game.
 				if link[:6] == '/wiki/':
 					if first == True:
 						new_page = link[6:]
